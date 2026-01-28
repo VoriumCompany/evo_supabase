@@ -103,17 +103,11 @@ Se você expor o Studio em outro domínio/subdomínio, adicione-o em `ADDITIONAL
 
 ### Compose (evitar conflito de portas)
 
-Este repositório inclui `docker-compose.easypanel.yml`, um override focado em **persistência** (volumes nomeados) para reduzir o risco de perda de dados entre deploys.
-
-Além disso, ele troca os diretórios mutáveis (Postgres e Storage) para **volumes nomeados**, reduzindo o risco de perder dados entre deploys.
+Este repositório inclui `docker-compose.easypanel.yml`, um override que remove os `ports:` (bind de porta no host) para evitar conflito com outras aplicações no servidor.
 
 Use com:
 
 `docker compose -f docker-compose.yml -f docker-compose.easypanel.yml up -d`
-
-Para rodar localmente publicando portas no host, use:
-
-`docker compose -f docker-compose.yml -f docker-compose.local.yml up -d`
 
 ## License
 
