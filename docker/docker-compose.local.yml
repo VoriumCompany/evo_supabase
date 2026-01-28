@@ -1,0 +1,18 @@
+name: supabase
+
+services:
+  # Overrides para uso LOCAL (publica portas no host)
+  kong:
+    ports:
+      - ${KONG_HTTP_PORT}:8000/tcp
+      - ${KONG_HTTPS_PORT}:8443/tcp
+
+  analytics:
+    ports:
+      - 4000:4000
+
+  supavisor:
+    ports:
+      - ${POSTGRES_PORT}:5432
+      - ${POOLER_PROXY_PORT_TRANSACTION}:6543
+

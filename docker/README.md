@@ -82,6 +82,39 @@ Before deploying to production, you must:
 
 See the [security section](https://supabase.com/docs/guides/self-hosting/docker#configuring-and-securing-supabase) in the documentation.
 
+## Easypanel (deploy via GitHub)
+
+### Estrutura recomendada
+
+- Use como **Caminho de Build** (Build Path) o diretório `supabase/docker` (é onde ficam `docker-compose.yml`, `.env.example` e a pasta `volumes/`).
+- **Não versionar `.env`**: este diretório já inclui `.gitignore` ignorando `.env` e os dados em `volumes/`.
+
+### Variáveis de ambiente
+
+No Easypanel, crie as variáveis copiando de `.env.example` e preenchendo com valores reais.
+
+Valores importantes para produção:
+
+- `SITE_URL`: use `https://$(PRIMARY_DOMAIN)`
+- `API_EXTERNAL_URL`: use `https://$(PRIMARY_DOMAIN)`
+- `SUPABASE_PUBLIC_URL`: use `https://$(PRIMARY_DOMAIN)`
+
+Se você expor o Studio em outro domínio/subdomínio, adicione-o em `ADDITIONAL_REDIRECT_URLS` (separado por vírgula).
+
+### Compose (evitar conflito de portas)
+
+Este repositório inclui `docker-compose.easypanel.yml`, um override focado em **persistência** (volumes nomeados) para reduzir o risco de perda de dados entre deploys.
+
+Além disso, ele troca os diretórios mutáveis (Postgres e Storage) para **volumes nomeados**, reduzindo o risco de perder dados entre deploys.
+
+Use com:
+
+`docker compose -f docker-compose.yml -f docker-compose.easypanel.yml up -d`
+
+Para rodar localmente publicando portas no host, use:
+
+`docker compose -f docker-compose.yml -f docker-compose.local.yml up -d`
+
 ## License
 
 This repository is licensed under the Apache 2.0 License. See the main [Supabase repository](https://github.com/supabase/supabase) for details.
